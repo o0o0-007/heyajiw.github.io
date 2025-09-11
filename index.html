@@ -6,13 +6,13 @@
     <title>heyaji</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* CSS 變數：方便你調整顏色 */
+        /* CSS 變數：調整為清晨水藍色調 */
         :root {
-            --bg-color: #2b2b2b; /* 較淺的深灰色 */
-            --text-color: #e0e0e0; /* 柔和的淺灰色文字 */
-            --accent-color: #9c27b0; /* 紫羅蘭色，更柔和 */
-            --border-color: #4a4a4a; /* 較淺的線條色 */
-            --rain-color: rgba(220, 220, 255, 0.4); /* 更透明、更淺的雨滴顏色 */
+            --bg-color: #2c3e50; /* 深沉的藍灰色，像清晨天空 */
+            --text-color: #e0e7eb; /* 柔和的淺灰色文字 */
+            --accent-color: #87ceeb; /* 天空藍，作為點綴色 */
+            --border-color: #4a657e; /* 較深的線條色 */
+            --raindrop-color: rgba(173, 216, 230, 0.6); /* 淺藍色半透明雨滴 */
         }
 
         body {
@@ -25,7 +25,7 @@
             position: relative;
         }
 
-        /* 動態輕柔雨滴背景 */
+        /* 動態雨滴在玻璃窗上的效果 */
         .rain-background {
             position: fixed;
             top: 0;
@@ -35,20 +35,26 @@
             pointer-events: none; /* 讓雨滴不影響滑鼠事件 */
             z-index: -1;
             overflow: hidden;
+            /* 輕微的玻璃模糊效果 */
+            backdrop-filter: blur(2px) brightness(80%); 
+            background-image: linear-gradient(135deg, rgba(var(--raindrop-color), 0.1) 0%, rgba(var(--raindrop-color), 0.05) 100%);
         }
 
         .rain {
             position: absolute;
-            background: var(--rain-color);
-            width: 1px; /* 更細的雨滴 */
-            height: 25px; /* 更短的雨滴 */
-            animation: soft-fall 2s linear infinite; /* 緩慢落下 */
+            background: var(--raindrop-color);
+            width: 2px; /* 稍微粗一點，像水珠的痕跡 */
+            height: 40px; /* 更長的滑落痕跡 */
+            border-radius: 50% / 50px; /* 讓頂部圓潤，底部尖銳，模擬水滴形狀 */
+            animation: raindrop-fall 5s linear infinite; /* 緩慢且平穩地落下 */
+            box-shadow: 0 0 5px rgba(var(--raindrop-color), 0.5); /* 輕微的光暈感 */
         }
 
-        @keyframes soft-fall {
-            0% { transform: translateY(-50px) translateX(0); opacity: 0; }
-            30% { opacity: 0.8; } /* 增加可見時間 */
-            100% { transform: translateY(100vh) translateX(20px); opacity: 0; } /* 輕微X軸位移 */
+        @keyframes raindrop-fall {
+            0% { transform: translateY(-100px) scaleY(0.5); opacity: 0; }
+            10% { opacity: 0.8; transform: translateY(0px) scaleY(1); }
+            80% { opacity: 0.8; transform: translateY(100vh) scaleY(1); }
+            100% { opacity: 0; transform: translateY(100vh) scaleY(0.5); }
         }
 
         /* JavaScript 會動態生成雨滴，並隨機化其位置和動畫延遲 */
@@ -60,6 +66,8 @@
             padding: 50px 20px;
             max-width: 1200px;
             margin: auto;
+            position: relative; /* 確保內容在雨滴之上 */
+            z-index: 1;
         }
 
         /* 頂部導覽列 */
@@ -109,18 +117,20 @@
         }
 
         .profile-pic-container {
-            width: 200px; /* 長方形寬度 */
-            height: 250px; /* 長方形高度 */
+            width: 300px; /* 長方形寬度 */
+            height: 350px; /* 長方形高度 */
             border-radius: 8px; /* 微圓角 */
             position: relative;
             margin: 0 auto 30px;
             overflow: hidden; /* 確保圖片不超出框 */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* 強烈陰影 */
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid var(--border-color); /* 添加一個柔和邊框 */
         }
         
         .profile-pic-container:hover {
             transform: translateY(-5px); /* 懸停時輕微上浮 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--accent-color); /* 懸停時陰影和光暈效果 */
         }
 
         .profile-pic {
@@ -147,6 +157,10 @@
         /* 標題與內文排版 */
         .content-block {
             margin-bottom: 40px;
+            background-color: rgba(43, 43, 43, 0.7); /* 內容塊半透明背景 */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .content-block h2 {
@@ -218,6 +232,9 @@
             .content-block h2 {
                 text-align: center;
             }
+            .content-block {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -244,13 +261,13 @@
                 <div class="profile-pic-container">
                     <img src="https://i.imgur.com/your-image-url.png" alt="個人頭像" class="profile-pic">
                 </div>
-                <h1>王亞婕</h1>
+                <h1>王亞婕</h>
             </div>
 
             <div class="right-panel">
                 <div class="content-block">
                     <h2>關於我</h2>
-                    <p>:)</p>
+                    <p>...</p>
                 </div>
                 
                 <div class="content-block">
@@ -291,6 +308,8 @@
                 <div class="content-block">
                     <h2>聯絡方式</h2>
                     <p><b>Email</b>: heyaji.w@gmail.com</p>
+                    <p><b>電話</b>: 更新中...</p>
+                    <p><b>社群</b>: 更新中...</p>
                 </div>
 
             </div>
@@ -300,16 +319,20 @@
     <script>
         // JavaScript 產生動態下雨效果
         const rainCanvas = document.getElementById('rain-canvas');
-        const numberOfDrops = 80; // 雨滴數量減少
-        const minDropLength = 15; // 最小雨滴長度
-        const maxDropLength = 35; // 最大雨滴長度
+        const numberOfDrops = 60; // 雨滴數量減少
+        const minDropLength = 30; // 最小雨滴長度
+        const maxDropLength = 60; // 最大雨滴長度
+        const minDropDelay = -10; // 最小動畫延遲
+        const maxDropDelay = -0.5; // 最大動畫延遲
+        const minDropDuration = 4; // 最小動畫時間
+        const maxDropDuration = 7; // 最大動畫時間
 
         for (let i = 0; i < numberOfDrops; i++) {
             const drop = document.createElement('div');
             drop.classList.add('rain');
             drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDelay = Math.random() * -8 + 's'; // 隨機延遲，更分散
-            drop.style.animationDuration = Math.random() * 2 + 1.5 + 's'; // 速度更慢
+            drop.style.animationDelay = (Math.random() * (maxDropDelay - minDropDelay) + minDropDelay) + 's'; // 隨機延遲，更分散
+            drop.style.animationDuration = (Math.random() * (maxDropDuration - minDropDuration) + minDropDuration) + 's'; // 速度更慢
             drop.style.height = Math.random() * (maxDropLength - minDropLength) + minDropLength + 'px'; // 隨機長度
             rainCanvas.appendChild(drop);
         }
